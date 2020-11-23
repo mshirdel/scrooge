@@ -15,20 +15,49 @@
 </head>
 
 <body>
-    <%= render "layouts/navbar" %>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <% if notice %>
+    <% unless ['sessions','registrations', 'passwords'].include? controller_name %>
+        <%= render "layouts/navbar" %>
+        <div class="container-fluid margin-top-10">
+            <div class="row">
+                <div class="col-md-12">
+                    <% if notice %>
                     <p class="alert alert-info"><%= notice %></p>
-                <% end %>
-                <% if alert %>
+                    <% end %>
+                    <% if alert %>
                     <p class="alert alert-danger"><%= alert %></p>
-                <% end %>
+                    <% end %>
+                </div>
             </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <ul class="list-group">
+                        <%= link_to  "Home", homepage_path, class: "list-group-item list-group-item-action" %>
+                        <%= link_to  "Tags", tags_path, class: "list-group-item list-group-item-action" %>
+                        <%= link_to  "Items", homepage_path, class: "list-group-item list-group-item-action" %>
+                        <%= link_to  "Groups", groups_path, class: "list-group-item list-group-item-action" %>
+                        <%= link_to  "Settings", homepage_path, class: "list-group-item list-group-item-action" %>
+                        <%= link_to  "User Profile", homepage_path, class: "list-group-item list-group-item-action" %>
+                    </ul>
+                    
+                </div>
+                <div class="col-md-9">
+                    <%= yield %>
+                </div>
+            </div>
+            
         </div>
-        <%= yield %>
-    </div>
+    <% else %>
+        <div class="session-center">
+            <% if notice %>
+                <p class="alert alert-info"><%= notice %></p>
+            <% end %>
+            <% if alert %>
+                <p class="alert alert-danger"><%= alert %></p>
+            <% end %>
+            <%= yield %> 
+        </div>
+    <% end %>
+
 </body>
 
 </html>

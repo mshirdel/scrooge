@@ -1,0 +1,30 @@
+<h1>Tags</h1>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Tag Name</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @tags.each_with_index do |tag, index| %>
+
+        <tr>
+            <th scope="row"><%= index + 1 %></th>
+            <td>
+                <%= tag.name %>
+            </td>
+            <td>
+                <%= link_to 'Edit', edit_tag_path(tag), class: 'btn btn-primary btn-sm' %>
+                <%= link_to 'Destroy', tag, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+            </td>
+        </tr>
+
+        <% end %>
+    </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tag', new_tag_path, class: "btn btn-success btn-sm" %>

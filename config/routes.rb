@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users
   root "dashboard#index", as:'homepage'
-  get 'main/about'
+  scope '/dashboard' do
+    resources :groups
+    resources :tags
+  end
+  
+  devise_for :users
+
 end

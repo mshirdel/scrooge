@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light nav-bar-bgcolor" >
     <%= link_to  "Scrooge", homepage_path, class: "navbar-brand" %>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -6,18 +6,8 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <%= link_to  "About", main_about_path, class:"nav-link" %>
-            </li>
-            <li class="nav-item">
-                <%= link_to  "User Panel", homepage_path, class: "nav-link" %>
-            </li>
-            <% if user_signed_in? %>
-                <a class="nav-link" href="/"><%= current_user.email %></a>
-                <%= link_to "Sign out", destroy_user_session_path, method: 'delete', class: "nav-link" %>
-            <% else %>
-                <%= link_to  "Sign up", new_user_registration_path, class: "nav-link" %>
-            <% end %>
+            <a class="nav-link" href="/"><%= current_user.email %></a>
+            <%= link_to "Sign out", destroy_user_session_path, method: 'delete', class: "nav-link" %>
         </ul>
     </div>
 </nav>
