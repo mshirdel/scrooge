@@ -1,14 +1,7 @@
-<p id="notice"><%= notice %></p>
-
+<% if @tag %>
 <p>
-  <strong>Name:</strong>
-  <%= @tag.name %>
+    <%= @tag.name %>
 </p>
-
-<p>
-  <strong>User:</strong>
-  <%= @tag.user_id %>
-</p>
-
 <%= link_to 'Edit', edit_tag_path(@tag) %> |
 <%= link_to 'Back', tags_path %>
+<% end %>

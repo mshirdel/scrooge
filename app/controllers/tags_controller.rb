@@ -1,16 +1,15 @@
 class TagsController < ApplicationController
-  before_action :set_tag, only: [:show, :edit, :update, :destroy]
+  before_action :set_tag, only: %i[show edit update destroy]
 
   # GET /tags
   # GET /tags.json
   def index
-    @tags = Tag.all.where(user: current_user)
+    @tags = Tag.where(user: current_user)
   end
 
   # GET /tags/1
   # GET /tags/1.json
-  def show
-  end
+  def show; end
 
   # GET /tags/new
   def new
@@ -18,8 +17,7 @@ class TagsController < ApplicationController
   end
 
   # GET /tags/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /tags
   # POST /tags.json
@@ -63,13 +61,19 @@ class TagsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_tag
-      @tag = Tag.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def tag_params
-      params.require(:tag).permit(:name, :user_id)
+  # Use callbacks to share common setup or constraints between actions.
+  def set_tag
+    begin
+      @tag = Tag.find_by! id: params[:id], user: current_user
+      #@tag = Tag.where(id: params[:id], user: current_user)
+    rescue ActiveRecord::RecordNotFound => msg
+      flash[:alert] = msg
     end
+  end
+
+  # Only allow a list of trusted parameters through.
+  def tag_params
+    params.require(:tag).permit(:name, :user_id)
+  end
 end
