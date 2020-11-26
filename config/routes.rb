@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   scope '/dashboard' do
     resources :groups
     resources :tags
+    resources :items
   end
   
   devise_for :users

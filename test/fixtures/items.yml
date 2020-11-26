@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  price: 1
+  date: 2020-11-26 23:04:50
+  user: one
+  group: one
+  item_type: MyString
+
+two:
+  name: MyString
+  price: 1
+  date: 2020-11-26 23:04:50
+  user: two
+  group: two
+  item_type: MyString
