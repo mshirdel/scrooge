@@ -15,20 +15,23 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
+    @groups = Group.where(user: current_user)
   end
 
   # GET /items/1/edit
   def edit
+    @groups = Group.where(user: current_user)
   end
 
   # POST /items
   # POST /items.json
   def create
     @item = Item.new(item_params)
+    @item.user = current_user
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, notice: 'Item was successfully created.' }
+        format.html { redirect_to items_url, notice: 'Item was successfully created.' }
         format.json { render :show, status: :created, location: @item }
       else
         format.html { render :new }

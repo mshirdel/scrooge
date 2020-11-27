@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: %i[show edit update destroy]
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   # GET /groups
   # GET /groups.json
@@ -64,13 +65,15 @@ class GroupsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_group
-    @group = Group.find_by! id: params[:id], user: current_user
-  rescue ActiveRecord::RecordNotFound => e
-    flash[:alert] = e
+    @group = current_user.groups.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
   def group_params
     params.require(:group).permit(:name, :user_id)
+  end
+
+  def record_not_found
+    render plain: '404 not found', status: 404
   end
 end
