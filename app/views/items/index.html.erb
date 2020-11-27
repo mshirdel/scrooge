@@ -1,14 +1,14 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Items</h1>
+<%= DateTime.now.to_parsi.strftime "%A %d %B %Y" %>
 
-<table>
-  <thead>
+<table class="table table-striped">
+  <thead class="thead-dark">
     <tr>
       <th>Name</th>
       <th>Price</th>
       <th>Date</th>
-      <th>User</th>
       <th>Group</th>
       <th>Item type</th>
       <th colspan="3"></th>
@@ -20,8 +20,7 @@
       <tr>
         <td><%= item.name %></td>
         <td><%= item.price %></td>
-        <td><%= item.date %></td>
-        <td><%= item.user_id %></td>
+        <td><%= item.date.to_parsi.strftime "%A %d %B %Y" %></td>
         <td><%= item.group_id %></td>
         <td><%= item.item_type %></td>
         <td><%= link_to 'Show', item %></td>
