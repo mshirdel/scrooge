@@ -23,7 +23,7 @@
 
   <div class="form-group">
     <%= form.label :date %>
-    <input type="date" name="item[date]">
+    <input type="text" name="item[date]" class="pdate-picker">
   </div>
 
   <div class="form-group">
@@ -33,7 +33,7 @@
 
   <div class="form-group">
     <%= form.label :item_type %>
-    <%= form.select :item_type, [["هزینه","Exp"], ["درآمد","In"]], class: "form-control" %>
+    <%= form.select :item_type, @item.item_type_option, class: "form-control" %>
   </div>
 
   <div class="form-group">

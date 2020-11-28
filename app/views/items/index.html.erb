@@ -1,7 +1,6 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Items</h1>
-<%= DateTime.now.to_parsi.strftime "%A %d %B %Y" %>
 
 <table class="table table-striped">
   <thead class="thead-dark">
@@ -21,11 +20,11 @@
         <td><%= item.name %></td>
         <td><%= item.price %></td>
         <td><%= item.date.to_parsi.strftime "%A %d %B %Y" %></td>
-        <td><%= item.group_id %></td>
+        <td><%= item.group.name %></td>
         <td><%= item.item_type %></td>
-        <td><%= link_to 'Show', item %></td>
-        <td><%= link_to 'Edit', edit_item_path(item) %></td>
-        <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', item , class: 'btn btn-primary btn-sm'%>
+        <%= link_to 'Edit', edit_item_path(item) , class: 'btn btn-primary btn-sm'%>
+        <%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger btn-sm'%></td>
       </tr>
     <% end %>
   </tbody>

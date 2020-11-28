@@ -1,10 +1,11 @@
 class TagsController < ApplicationController
   before_action :set_tag, only: %i[show edit update destroy]
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   # GET /tags
   # GET /tags.json
   def index
-    @tags = Tag.where(user: current_user)
+    @tags = current_user.tags
   end
 
   # GET /tags/1
@@ -64,12 +65,7 @@ class TagsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_tag
-    begin
-      @tag = Tag.find_by! id: params[:id], user: current_user
-      #@tag = Tag.where(id: params[:id], user: current_user)
-    rescue ActiveRecord::RecordNotFound => msg
-      flash[:alert] = msg
-    end
+      @tag = current_user.tags.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

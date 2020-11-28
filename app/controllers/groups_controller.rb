@@ -5,7 +5,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.where(user: current_user)
+    @groups = current_user.groups
   end
 
   # GET /groups/1
@@ -71,9 +71,5 @@ class GroupsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def group_params
     params.require(:group).permit(:name, :user_id)
-  end
-
-  def record_not_found
-    render plain: '404 not found', status: 404
   end
 end
