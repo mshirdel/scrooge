@@ -8,12 +8,18 @@ require("turbolinks").start();
 require("@rails/activestorage").start();
 require("channels");
 require("jquery");
-
+require("./persianDatepicker");
 import "bootstrap";
 
 document.addEventListener("turbolinks:load", () => {
   //   $('[data-toggle="tooltip"]').tooltip();
   //   $('[data-toggle="popover"]').popover();
+  $(".pdate-picker").persianDatepicker({
+    showGregorianDate: false,
+    cellWidth: 42,
+    cellHeight: 42,
+    fontSize: 18,
+  });
 });
 
 // Uncomment to copy all static images under ../images to the output folder and reference

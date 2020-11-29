@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: %i[show edit update destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   # GET /items
@@ -10,8 +10,7 @@ class ItemsController < ApplicationController
 
   # GET /items/1
   # GET /items/1.json
-  def show
-  end
+  def show; end
 
   # GET /items/new
   def new
@@ -29,6 +28,7 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @item.user = current_user
+    @item.date = Parsi::Date.parse(item_params['date']).to_gregorian
 
     respond_to do |format|
       if @item.save
@@ -45,7 +45,9 @@ class ItemsController < ApplicationController
   # PATCH/PUT /items/1.json
   def update
     respond_to do |format|
-      if @item.update(item_params)
+      params = item_params
+      params['date'] = Parsi::Date.parse(item_params['date']).to_gregorian
+      if @item.update(params)
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
         format.json { render :show, status: :ok, location: @item }
       else
@@ -66,13 +68,14 @@ class ItemsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_item
-      @item = current_user.items.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def item_params
-      params.require(:item).permit(:name, :price, :date, :user_id, :group_id, :item_type)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_item
+    @item = current_user.items.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def item_params
+    params.require(:item).permit(:name, :price, :date, :user_id, :group_id, :item_type)
+  end
 end

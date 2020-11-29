@@ -1,34 +1,6 @@
-<p id="notice"><%= notice %></p>
-
 <p>
-  <strong>Name:</strong>
-  <%= @item.name %>
+  <%= @item.name %> <%= @item.price %> تومن | <%= @item.date.to_parsi.strftime "%A %d %B %Y" %> | <%= @item.group.name %> | <%= @item.item_type %>
 </p>
 
-<p>
-  <strong>Price:</strong>
-  <%= @item.price %>
-</p>
-
-<p>
-  <strong>Date:</strong>
-  <%= @item.date %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @item.user_id %>
-</p>
-
-<p>
-  <strong>Group:</strong>
-  <%= @item.group_id %>
-</p>
-
-<p>
-  <strong>Item type:</strong>
-  <%= @item.item_type %>
-</p>
-
-<%= link_to 'Edit', edit_item_path(@item) %> |
-<%= link_to 'Back', items_path %>
+<%= link_to 'Edit', edit_item_path(@item), class: "btn btn-success" %> 
+<%= link_to 'Back', items_path, class: "btn btn-secondary" %>
