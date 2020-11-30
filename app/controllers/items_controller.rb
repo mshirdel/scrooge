@@ -15,12 +15,10 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     @item = Item.new
-    @groups = Group.where(user: current_user)
   end
 
   # GET /items/1/edit
   def edit
-    @groups = Group.where(user: current_user)
   end
 
   # POST /items
@@ -28,7 +26,7 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @item.user = current_user
-    @item.date = Parsi::Date.parse(item_params['date']).to_gregorian
+    @item.date = Parsi::Date.parse(item_params['date']).to_gregorian unless item_params['date'].blank?
 
     respond_to do |format|
       if @item.save
@@ -46,7 +44,7 @@ class ItemsController < ApplicationController
   def update
     respond_to do |format|
       params = item_params
-      params['date'] = Parsi::Date.parse(item_params['date']).to_gregorian
+      params['date'] = Parsi::Date.parse(item_params['date']).to_gregorian unless item_params['date'].blank?
       if @item.update(params)
         format.html { redirect_to @item, notice: 'Item was successfully updated.' }
         format.json { render :show, status: :ok, location: @item }
@@ -76,6 +74,6 @@ class ItemsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def item_params
-    params.require(:item).permit(:name, :price, :date, :user_id, :group_id, :item_type)
+    params.require(:item).permit(:name, :price, :date, :user_id, :group_id, :item_type, { tag_ids: [] })
   end
 end

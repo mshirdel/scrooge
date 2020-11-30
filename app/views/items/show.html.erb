@@ -2,5 +2,12 @@
   <%= @item.name %> <%= @item.price %> تومن | <%= @item.date.to_parsi.strftime "%A %d %B %Y" %> | <%= @item.group.name %> | <%= @item.item_type %>
 </p>
 
+  <% @item.tags.each do |t| %>
+    <span class="badge badge-pill badge-info">
+      <%= t.name %>
+    </span>
+  <% end %>
+
+<hr>
 <%= link_to 'Edit', edit_item_path(@item), class: "btn btn-success" %> 
 <%= link_to 'Back', items_path, class: "btn btn-secondary" %>
