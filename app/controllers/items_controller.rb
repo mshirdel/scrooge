@@ -5,7 +5,15 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = current_user.items.all
+    page_size = 12
+    @page = params[:page] || 1
+    @total_page = (current_user.items.count / page_size.to_f).ceil
+    @items = current_user.items.limit(page_size).offset((@page.to_i - 1) * page_size).order(date: :desc)
+
+    @page = @page.to_i
+    @paginator_iter_count = (1..10)
+    @paginator_iter_count = (@page - 5..@page + 5) if @page >= 10 && @page <= @total_page - 10
+    @paginator_iter_count = (@total_page - 10..@total_page) if @page > @total_page - 10
   end
 
   # GET /items/1
@@ -18,8 +26,7 @@ class ItemsController < ApplicationController
   end
 
   # GET /items/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /items
   # POST /items.json
