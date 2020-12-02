@@ -6,14 +6,20 @@ class ItemsController < ApplicationController
   # GET /items.json
   def index
     page_size = 12
-    @page = params[:page] || 1
+    @page = params[:page].nil? ? 1 :  params[:page].to_i
+    @items = current_user.items.all
+    @items = @items.where(name: params[:name]) unless params[:name].nil?
+    # count total item before paging
+    flash[:notice] = "Total item found : #{@items.count}"
+    
+    @items = @items.limit(page_size).offset((@page.to_i - 1) * page_size).order(date: :desc)
     @total_page = (current_user.items.count / page_size.to_f).ceil
-    @items = current_user.items.limit(page_size).offset((@page.to_i - 1) * page_size).order(date: :desc)
 
-    @page = @page.to_i
     @paginator_iter_count = (1..10)
     @paginator_iter_count = (@page - 5..@page + 5) if @page >= 10 && @page <= @total_page - 10
     @paginator_iter_count = (@total_page - 10..@total_page) if @page > @total_page - 10
+
+    @item_types = Item.new.item_type_option
   end
 
   # GET /items/1

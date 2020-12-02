@@ -1,61 +1,129 @@
-<p id="notice"><%= notice %></p>
-<div class="row">
-    <div class="col-md-6">
-        <h1>Items</h1>
+<div class="card card-body">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Items</h1>
+        </div>
+        <div class="col-md-6 text-left">
+            <%= link_to 'New Item', new_item_path, class: 'btn btn-success' %>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                Filter
+            </a>
+        </div>
     </div>
-    <div class="col-md-6 text-left">
-        <%= link_to 'New Item', new_item_path, class: 'btn btn-success' %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <%= form_with(method: :get, local: true) do |form| %>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <%= form.label :name %>
+                                <%= form.text_field :name, class: "form-control" %>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Price from:</label>
+                                    <input type="text" name="price_gte" class="form-control form-control-sm" id="id_price_gte">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Proce to:</label>
+                                    <input type="text" name="price_lte" class="form-control form-control-sm" id="id_price_lte">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Date from:</label>
+                                    <input type="text" name="date_gte" class="pdate-picker form-control form-control-sm datepicker pwt-datepicker-input-element" id="id_date_gte">
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Date to:</label>
+                                    <input type="text" name="date_lte" class="pdate-picker form-control form-control-sm datepicker pwt-datepicker-input-element" id="id_date_lte">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <%= form.label :group_id %>
+                                    <%= form.collection_select :group_id, current_user.groups.all, :id, :name, {},class: "form-control" %>
+                                </div>
+                                <div class="col-md-6">
+                                    <%= form.label :item_type %>
+                                    <%= form.select :item_type, @item_types,{}, class: "form-control" %>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <%= form.label :tag_ids %>
+                                    <%= form.collection_select :tag_ids, current_user.tags.all, :id, :name, {} , class: "form-control", multiple: true %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <%= form.submit "Filter",  class: "btn btn-outline-success mt-2" %>
+                        <a href="#" class="btn btn-outline-primary mt-2">حذف فیلتر</a>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Group</th>
+                <th>Item type</th>
+                <th colspan="3"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% @items.each do |item| %>
+            <tr>
+                <td><%= item.name %></td>
+                <td><%= item.price %></td>
+                <td><%= item.date.to_parsi.strftime "%A %d %B %Y" %></td>
+                <td><%= item.group.name %></td>
+                <td><%= item.item_type %></td>
+                <td><%= link_to 'Show', item , class: 'btn btn-primary btn-sm'%>
+                    <%= link_to 'Edit', edit_item_path(item) , class: 'btn btn-primary btn-sm'%>
+                    <%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger btn-sm'%></td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <%= link_to "First" , items_path , class: "page-link" %>
+            </li>
+            <% @paginator_iter_count.each do |e| %>
+            <% if @page == e %>
+            <li class="page-item active">
+                <% else %>
+            <li class="page-item">
+                <% end %>
+
+                <%= link_to "#{e}" , items_path + "?page=#{e}", class: "page-link" %>
+            </li>
+            <% end %>
+            <li class="page-item">
+                <%= link_to "Last" , items_path + "?page=#{@total_page}" , class: "page-link" %>
+            </li>
+        </ul>
+    </nav>
+
+    <br>
+    <div class="row">
+        <div class="col-md-12">
+            <%= link_to 'New Item', new_item_path, class: 'btn btn-success' %>
+        </div>
     </div>
 </div>
-
-<table class="table table-striped">
-    <thead class="thead-dark">
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Date</th>
-            <th>Group</th>
-            <th>Item type</th>
-            <th colspan="3"></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        <% @items.each do |item| %>
-        <tr>
-            <td><%= item.name %></td>
-            <td><%= item.price %></td>
-            <td><%= item.date.to_parsi.strftime "%A %d %B %Y" %></td>
-            <td><%= item.group.name %></td>
-            <td><%= item.item_type %></td>
-            <td><%= link_to 'Show', item , class: 'btn btn-primary btn-sm'%>
-                <%= link_to 'Edit', edit_item_path(item) , class: 'btn btn-primary btn-sm'%>
-                <%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } , class: 'btn btn-danger btn-sm'%></td>
-        </tr>
-        <% end %>
-    </tbody>
-</table>
-<nav aria-label="Page navigation example">
-    <ul class="pagination">
-        <li class="page-item">
-            <%= link_to "First" , items_path , class: "page-link" %>
-        </li>
-        <% @paginator_iter_count.each do |e| %>
-        <% if @page == e %>
-          <li class="page-item active" >
-        <% else %>
-          <li class="page-item" >
-        <% end %>
-        
-          <%= link_to "#{e}" , items_path + "?page=#{e}", class: "page-link" %>
-        </li>
-        <% end %>
-        <li class="page-item">
-            <%= link_to "Last" , items_path + "?page=#{@total_page}" , class: "page-link" %>
-        </li>
-    </ul>
-</nav>
-
-<br>
-
-<%= link_to 'New Item', new_item_path, class: 'btn btn-success' %>

@@ -1,6 +1,8 @@
-<h1>New Item</h1>
-<% @page_title = "NEW ITEM" %>
+<div class="card card-body">
+    <h1>New Item</h1>
+    <% @page_title = "NEW ITEM" %>
 
-<%= render 'form', item: @item %>
+    <%= render 'form', item: @item %>
 
-<%= link_to 'Back', items_path %>
+    <%= link_to 'Back', items_path %>
+</div>
